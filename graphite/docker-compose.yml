@@ -2,6 +2,7 @@ version: "3.7"
 
 networks:
   net:
+    name: graphite
     driver: bridge
 
 services:

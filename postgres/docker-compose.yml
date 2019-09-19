@@ -1,0 +1,28 @@
+version: "3.7"
+
+networks:
+  net:
+    name: postgres
+    driver: bridge
+
+services:
+
+  db:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: toor
+      POSTGRES_USER: root
+      POSTGRES_DB: test
+    networks:
+      - net
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - net
