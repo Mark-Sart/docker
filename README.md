@@ -15,3 +15,4 @@
 ## Список образов в репозитории
 1. Prometheus + Grafana
 2. Graphite
+3. PostgreSQL
