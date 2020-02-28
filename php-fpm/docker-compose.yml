@@ -1,0 +1,36 @@
+version: "3.7"
+
+networks:
+  internal:
+    name: internal
+    driver: bridge
+
+services:
+  php-fpm:
+    container_name: php-fpm
+    build:
+      context: docker/php-fpm
+    volumes:
+      - ./docker/php-fpm/php.ini:/usr/local/etc/php/php.ini
+      - ./web:/var/www
+    environment:
+      XDEBUG_CONFIG: "remote_host=host.docker.internal remote_enable=1 idekey=IDEA"
+      PHP_IDE_CONFIG: "serverName=Docker"
+    restart: always
+    networks:
+      - internal
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./log/nginx:/var/log/nginx
+      - ./web:/var/www
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+      - php-fpm
+    networks:
+      - internal
